@@ -1,83 +1,25 @@
-// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:image_asstes_project/screens/spalsh_screen.dart';
 
-void main() {
-  runApp(const MyImageApp());
+void main(List<String> args) {
+  runApp(MyImage_App());
 }
 
-class MyImageApp extends StatelessWidget {
-  const MyImageApp({super.key});
+class MyImage_App extends StatefulWidget {
+  const MyImage_App({super.key});
 
+  @override
+  State<MyImage_App> createState() => _MyImage_AppState();
+}
+
+class _MyImage_AppState extends State<MyImage_App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.teal,
-              title: Text('Image_Scrolling_App'),
-              centerTitle: true,
-            ),
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 5,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  //.........................NETWORK IMAGES SECTION.........................//
-                  Image.network(
-                      'https://c4.wallpaperflare.com/wallpaper/134/149/308/movies-marvel-comics-superhero-ms-marvel-wallpaper-preview.jpg'),
-
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.network(
-                      'https://images.hdqwalls.com/wallpapers/scarlet-witch-wanda-x2.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.network(
-                      'https://www.ubackground.com/_ph/86/426994636.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.network(
-                      'https://www.xtrafondos.com/wallpapers/venom-marvel-comics-10146.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.network(
-                      'https://c4.wallpaperflare.com/wallpaper/230/551/769/tom-hardy-venom-peter-parker-spider-man-wallpaper-preview.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.network(
-                      'https://rare-gallery.com/mocahbig/57455-X-Men-Marvel-ComicsWolverine-4k-Ultra-HD-Wallpaper.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-
-                  //....................ASSETS IMAGES SECTION...................................... //
-                  Image(
-                    image: AssetImage('assets/ironfist.jpg'),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.asset('assets/doctorstrange.jpg'),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Image.asset('assets/marvelcomics.jpg'),
-                ],
-              ),
-            )),
-      ),
+      home: splashScreen(),
     );
   }
 }

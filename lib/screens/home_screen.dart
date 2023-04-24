@@ -1,7 +1,12 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_asstes_project/constants/catagory_names.dart';
 import 'package:image_asstes_project/constants/image_constants.dart';
+import 'package:image_asstes_project/screens/profile.dart';
+import 'package:velocity_x/velocity_x.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,13 +19,125 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        title: const Text('Image Scrolling App'),
+        centerTitle: true,
+        actions: [
+          PopupMenuButton(
+            padding: const EdgeInsets.all(20.0),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileScreen(),
+                        ));
+                  },
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Profile',
+                        style: TextStyle(
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      20.widthBox,
+                      const Icon(Icons.account_circle_sharp),
+                    ],
+                  )),
+              PopupMenuItem(
+                  child: Row(
+                children: [
+                  const Text(
+                    'Logout',
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  20.widthBox,
+                  const Icon(
+                    CupertinoIcons.lock_open,
+                  )
+                ],
+              )),
+            ],
+            child: const Icon(
+              CupertinoIcons.profile_circled,
+              size: 30,
+              weight: 50,
+            ),
+          )
+        ],
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(15.0),
           child: Column(
-        children: List.generate(
-          imageLists.length,
-          (index) => Image.asset(imageLists[index]),
-        ),
-      )),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                height: context.screenHeight / 3,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                      imageLists.length,
+                      (index) => Card(
+                        margin: const EdgeInsets.all(15.0),
+                        elevation: 10.0,
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              imageLists[index],
+                              height: 180,
+                            ),
+                            10.heightBox,
+                            Text(
+                              imagesCatagoryName[index],
+                              style: const TextStyle(
+                                letterSpacing: 1.8,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              25.heightBox,
+              const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                  'Top Images',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20.0,
+                    letterSpacing: 1.8,
+                  ),
+                ),
+              ),
+              Column(
+                children: List.generate(
+                  imageLists.length,
+                  (index) => Card(
+                    margin: const EdgeInsets.all(15.0),
+                    elevation: 10.0,
+                    child: Image.asset(imageLists[index]),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )),
+      ),
+      drawer: Drawer(),
     );
   }
 }

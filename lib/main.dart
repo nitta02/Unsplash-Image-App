@@ -19,6 +19,9 @@ class _MyImage_AppState extends State<MyImage_App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.amber,
+      ),
       home: splashScreen(),
     );
   }

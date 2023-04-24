@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_literals_to_create_immutables
+// ignore_for_file: avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,24 +43,31 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       20.widthBox,
-                      const Icon(Icons.account_circle_sharp),
+                      Icon(Icons.account_circle_sharp),
                     ],
                   )),
               PopupMenuItem(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen(),
+                        ));
+                  },
                   child: Row(
-                children: [
-                  const Text(
-                    'Logout',
-                    style: TextStyle(
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  20.widthBox,
-                  const Icon(
-                    CupertinoIcons.lock_open,
-                  )
-                ],
-              )),
+                    children: [
+                      const Text(
+                        'Logout',
+                        style: TextStyle(
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                      20.widthBox,
+                      const Icon(
+                        CupertinoIcons.lock_open,
+                      )
+                    ],
+                  )),
             ],
             child: const Icon(
               CupertinoIcons.profile_circled,

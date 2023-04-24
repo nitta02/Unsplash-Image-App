@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,6 +21,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         centerTitle: true,
+      ),
+      body: Column(
+        children: [const Text("Profile")],
       ),
     );
   }

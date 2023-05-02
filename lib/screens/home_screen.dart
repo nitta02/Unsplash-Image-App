@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_asstes_project/constants/catagory_names.dart';
 import 'package:image_asstes_project/constants/image_constants.dart';
+import 'package:image_asstes_project/screens/drawer_screen.dart';
 import 'package:image_asstes_project/screens/profile.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -144,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         )),
       ),
-      drawer: Drawer(),
+      drawer: DrawerScreen(),
     );
   }
 }

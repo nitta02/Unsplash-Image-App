@@ -3,7 +3,6 @@
 
 
 ## Project Structure
-
 lib/
 ├── constants/
 │   └── api_constants.dart

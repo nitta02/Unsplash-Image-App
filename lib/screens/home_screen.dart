@@ -1,135 +1,73 @@
-// ignore_for_file: avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:image_asstes_project/constants/catagory_names.dart';
-import 'package:image_asstes_project/constants/image_constants.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:image_asstes_project/model/model.dart';
+import 'package:image_asstes_project/service/apiService.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+class MainScreen extends StatefulWidget {
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainScreenState extends State<MainScreen> {
+  late Future<List<UnsplashImage>> futureImages;
+
+  @override
+  void initState() {
+    super.initState();
+    futureImages = ApiService().getApi();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Image Scrolling App'),
-        centerTitle: true,
-        leading: Icon(Icons.menu),
-        actions: [
-          PopupMenuButton(
-            padding: const EdgeInsets.all(20.0),
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Profile',
-                        style: TextStyle(
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                      20.widthBox,
-                      Icon(Icons.account_circle_sharp),
-                    ],
-                  )),
-              PopupMenuItem(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Logout',
-                        style: TextStyle(
-                          letterSpacing: 1.5,
-                        ),
-                      ),
-                      20.widthBox,
-                      const Icon(
-                        CupertinoIcons.lock_open,
-                      )
-                    ],
-                  )),
-            ],
-            child: const Icon(
-              CupertinoIcons.profile_circled,
-              size: 30,
-              weight: 50,
-            ),
-          )
-        ],
+        title: const Text('Unsplash Image Scroller'),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                height: context.screenHeight / 3,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                      imageLists.length,
-                      (index) => Card(
-                        margin: const EdgeInsets.all(15.0),
-                        elevation: 10.0,
-                        child: Column(
-                          children: [
-                            Image.asset(
-                              imageLists[index],
-                              height: 180,
-                            ),
-                            10.heightBox,
-                            Text(
-                              imagesCatagoryName[index],
-                              style: const TextStyle(
-                                letterSpacing: 1.8,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
-                        ),
+      body: FutureBuilder<List<UnsplashImage>>(
+        future: futureImages,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(
+              child: const Text('No images found'),
+            );
+          } else {
+            return GridView.builder(
+              // ignore: prefer_const_constructors
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 16 / 24,
+              ),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                UnsplashImage image = snapshot.data![index];
+                return Card(
+                  elevation: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.network(
+                        image.imageUrl,
+                        fit: BoxFit.fitHeight,
                       ),
-                    ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8.0),
+                      //   child: Text(
+                      //     image.description.isNotEmpty
+                      //         ? image.description
+                      //         : 'No description',
+                      //     style: TextStyle(fontSize: 16),
+                      //   ),
+                      // ),
+                    ],
                   ),
-                ),
-              ),
-              25.heightBox,
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  'Top Images',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    letterSpacing: 1.8,
-                  ),
-                ),
-              ),
-              Column(
-                children: List.generate(
-                  imageLists.length,
-                  (index) => Card(
-                    margin: const EdgeInsets.all(15.0),
-                    elevation: 10.0,
-                    child: Image.asset(imageLists[index]),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        )),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }

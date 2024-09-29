@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors, camel_case_types
 
 import 'package:flutter/material.dart';
-import 'package:image_asstes_project/screens/spalsh_screen.dart';
+import 'package:image_asstes_project/screens/home_screen.dart';
 
-void main(List<String> args) {
+void main() {
   runApp(MyImage_App());
 }
 
@@ -22,7 +22,7 @@ class _MyImage_AppState extends State<MyImage_App> {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: splashScreen(),
+      home: MainScreen(),
     );
   }
 }
